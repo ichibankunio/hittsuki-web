@@ -73,10 +73,11 @@
         function getRotation(src) {
             console.log(src.type)
 
-            let rotation = 0;
             let finished = false;
             EXIF.getData(src, function(){ //EXIF.getDataでEXIF情報を取得
                 var exifData = EXIF.pretty(this);
+
+                let rotation = 0;
 
                 if (exifData) { //Exifデータのチェック Exifがない場合は、空が返ってきます
                     orientation = EXIF.getTag(this, "Orientation"); //Orientation情報を格納
@@ -93,15 +94,12 @@
                 } else {
                     console.log("doesn't have exif")
                 }
-
-                finished = true;
+                localStorage.setItem('rotation', rotation);
             });
+        }
 
-            while (!finished) {
-                console.log("waiting for callback")
-            }
-
-            return rotation;
+        function fetchRotation() {
+            return localStorage.getItem('rotation', rotation)
         }
 
         function ImageResize(image_src, mime_type, width, height, rotate) {
