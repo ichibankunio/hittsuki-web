@@ -94,13 +94,13 @@
                 } else {
                     console.log("doesn't have exif")
                 }
-                
+
                 localStorage.setItem('rotation', rotation);
             });
         }
 
         function fetchRotation() {
-            return localStorage.getItem('rotation', rotation)
+            return localStorage.getItem('rotation')
         }
 
         function ImageResize(image_src, mime_type, width, height, rotate) {
