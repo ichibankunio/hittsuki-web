@@ -70,51 +70,34 @@
             return yyyymmddhhmmss;
         }
 
-        function correctRotation(src) {
+        function getRotation(src) {
             console.log(src.type)
 
-            let image = new Image();
-            let reader = new FileReader();
-            reader.readAsDataURL(src);
-            //ファイルが読み込めたら
-            reader.onload = function () {
-                var result = reader.result;
+            let rotation = 0;
+            EXIF.getData(src, function(){ //EXIF.getDataでEXIF情報を取得
+                var exifData = EXIF.pretty(this);
 
-                EXIF.getData(src, function(){ //EXIF.getDataでEXIF情報を取得
-                    var exifData = EXIF.pretty(this);
+                if (exifData) { //Exifデータのチェック Exifがない場合は、空が返ってきます
+                    orientation = EXIF.getTag(this, "Orientation"); //Orientation情報を格納
 
-                    if(exifData){ //Exifデータのチェック Exifがない場合は、空が返ってきます
-                        orientation = EXIF.getTag(this, "Orientation"); //Orientation情報を格納
-
-                        //あとはOrientation情報で写真の向きを補正させる
-                        console.log(orientation.toString());
-
-                        var rotation = 0;
-                        if (orientation == 3) {
-                            rotation = 180;
-                        } else if (orientation == 6) {
-                            rotation = 90;
-                        } else if (orientation == 8) {
-                            rotation = 270;
-                        }
-                        
-                        if (rotation != 0) {
-                            image = imageResize(result, src.type, src.naturalWidth, src.naturalHeight, rotation)
-                        }
-
-                    }else {
-                        console.log("doesn't have exif")
+                    //あとはOrientation情報で写真の向きを補正させる
+                    console.log(orientation.toString());
+                    if (orientation == 3) {
+                        rotation = 180;
+                    } else if (orientation == 6) {
+                        rotation = 90;
+                    } else if (orientation == 8) {
+                        rotation = 270;
                     }
-                });
-                
-            };
+                } else {
+                    console.log("doesn't have exif")
+                }
+            });
 
-            
-
-            return image
+            return rotation
         }
 
-        function imageResize(image_src, mime_type, width, height, rotate) {
+        function ImageResize(image_src, mime_type, width, height, rotate) {
             // New Canvas
             var canvas = document.createElement('canvas');
             if(rotate == 90 || rotate == 270) {
@@ -138,7 +121,7 @@
             }
             ctx.drawImage(image_src, 0, 0, width, height);
             // Image Base64
-            return canvas.toDataURL(mime_type).arrayBuffer;
+            return canvas.toDataURL(mime_type);
         }
     </script>
 </html>
