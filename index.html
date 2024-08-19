@@ -83,20 +83,19 @@
                     //あとはOrientation情報で写真の向きを補正させる
                     console.log(orientation.toString());
                     if (orientation.toString() == "3") {
-                        rotation = 180;
+                        return 180;
                     } else if (orientation.toString() == "3") {
-                        rotation = 90;
+                        return 90;
                     } else if (orientation.toString() == "8") {
-                        rotation = 270;
+                        return 270;
                     }
                 } else {
                     console.log("doesn't have exif")
                 }
             });
 
-            console.log(rotation)
 
-            return rotation
+            return 0
         }
 
         function ImageResize(image_src, mime_type, width, height, rotate) {
