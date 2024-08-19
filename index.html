@@ -40,8 +40,10 @@ WebAssembly.instantiateStreaming(fetch("ebiten.wasm"), go.importObject).then(res
 		// (参考) href の内容は DataURL 形式のテキストです。
 		console.log(a.href);
 		// ファイル名をセットする。
-		a.download = "test.png";
+		a.download = "hittsuki_result.png";
 		// a タグをクリックする。リンクをクリックする動作になります。
 		a.click();
+
+        alert('画像を保存しました！ストーリーに投稿してね！');
     }
 </script>
