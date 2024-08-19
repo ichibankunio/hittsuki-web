@@ -21,6 +21,17 @@ WebAssembly.instantiateStreaming(fetch("ebiten.wasm"), go.importObject).then(res
 <script>
     function saveImage(bytes) {
         console.log("js was called")
-        console.log(bytes)
+        // console.log(bytes)
+
+        // Uint8ArrayをBlobオブジェクトに変換
+        var blob = new Blob([receivedData], { type: 'image/png' }); // typeを適切な画像形式に合わせて設定
+
+        // BlobオブジェクトをURLに変換
+        var imageUrl = URL.createObjectURL(blob);
+
+        // 画像要素を作成して表示
+        var imgElement = document.createElement('img');
+        imgElement.src = imageUrl;
+        document.body.appendChild(imgElement);
     }
 </script>
