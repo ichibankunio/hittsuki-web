@@ -99,7 +99,7 @@
                     }
                     
                     if (rotation != 0) {
-                        src = imageResize(image, src.type, src.naturalWidth, src.naturalHeight, rotation)
+                        image = imageResize(image, src.type, src.naturalWidth, src.naturalHeight, rotation)
                     }
 
                 }else {
@@ -107,7 +107,7 @@
                 }
             });
 
-            return src
+            return image
         }
 
         function imageResize(image_src, mime_type, width, height, rotate) {
