@@ -1,5 +1,16 @@
 <!DOCTYPE html>
-<body>
-    <iframe src="ebiten.html" width="360" height="640"></iframe>
-    <input type="file" id="file" />
-</body>
+<script src="wasm_exec.js"></script>
+<script>
+// Polyfill
+if (!WebAssembly.instantiateStreaming) {
+    WebAssembly.instantiateStreaming = async (resp, importObject) => {
+        const source = await (await resp).arrayBuffer();
+        return await WebAssembly.instantiate(source, importObject);
+    };
+}
+
+const go = new Go();
+WebAssembly.instantiateStreaming(fetch("ebiten.wasm"), go.importObject).then(result => {
+    go.run(result.instance);
+});
+</script>
