@@ -80,6 +80,9 @@
                     orientation = EXIF.getTag(this, "Orientation"); //Orientation情報を格納
 
                     //あとはOrientation情報で写真の向きを補正させる
+                    console.log(orientation.toString())
+                }else {
+                    console.log("doesn't have exif")
                 }
             });
 
