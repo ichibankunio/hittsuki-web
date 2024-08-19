@@ -80,13 +80,54 @@
                     orientation = EXIF.getTag(this, "Orientation"); //Orientation情報を格納
 
                     //あとはOrientation情報で写真の向きを補正させる
-                    console.log(orientation.toString())
+                    console.log(orientation.toString());
+
+                    var rotation = 0;
+                    if (orientation == 3) {
+                        rotation = 180;
+                    } else if (orientation == 6) {
+                        rotation = 90;
+                    } else if (orientation == 8) {
+                        rotation = 270;
+                    }
+                    
+                    if (rotation != 0) {
+                        src = imageResize(src, src.type, src.naturalWidth, src.naturalHeight, rotation)
+                    }
+
                 }else {
                     console.log("doesn't have exif")
                 }
             });
 
             return src
+        }
+
+        function imageResize(image_src, mime_type, width, height, rotate) {
+            // New Canvas
+            var canvas = document.createElement('canvas');
+            if(rotate == 90 || rotate == 270) {
+                // swap w <==> h
+                canvas.width = height;
+                canvas.height = width;
+            } else {
+                canvas.width = width;
+                canvas.height = height;
+            }
+            // Draw (Resize)
+            var ctx = canvas.getContext('2d');
+            if(rotate && rotate > 0) {
+                ctx.rotate(rotate * Math.PI / 180);
+                if(rotate == 90)
+                    ctx.translate(0, -height);
+                else if(rotate == 180)
+                    ctx.translate(-width, -height);
+                else if(rotate == 270)
+                    ctx.translate(-width, 0);
+            }
+            ctx.drawImage(image_src, 0, 0, width, height);
+            // Image Base64
+            return canvas.toDataURL(mime_type);
         }
     </script>
 </html>
