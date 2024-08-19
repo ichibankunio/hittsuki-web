@@ -21,7 +21,8 @@
         go.run(result.instance);
     });
     </script>
-    
+
+    <script src="https://cdn.jsdelivr.net/npm/exif-js"></script>
     <script>
         function saveImage(bytes) {
             console.log("js was called")
@@ -71,6 +72,16 @@
 
         function correctRotation(src) {
             console.log(src.type)
+
+            EXIF.getData(src, function(){ //EXIF.getDataでEXIF情報を取得
+                var exifData = EXIF.pretty(this);
+
+                if(exifData){ //Exifデータのチェック Exifがない場合は、空が返ってきます
+                    orientation = EXIF.getTag(this, "Orientation"); //Orientation情報を格納
+
+                    //あとはOrientation情報で写真の向きを補正させる
+                }
+            });
 
             return src
         }
