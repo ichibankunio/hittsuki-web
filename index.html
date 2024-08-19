@@ -17,3 +17,10 @@ WebAssembly.instantiateStreaming(fetch("ebiten.wasm"), go.importObject).then(res
 <!-- <body>
     <input id="input" type="file">
 </body> -->
+
+<script>
+    function saveImage(bytes) {
+        console.log("js was called")
+        concole.log(bytes)
+    }
+</script>
