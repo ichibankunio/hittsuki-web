@@ -73,6 +73,13 @@
         function correctRotation(src) {
             console.log(src.type)
 
+            let image = new Image();
+            let reader = new FileReader();
+            reader.readAsDataURL(src);
+            reader.onload = () => {
+                image.src = reader.result;
+            }
+
             EXIF.getData(src, function(){ //EXIF.getDataでEXIF情報を取得
                 var exifData = EXIF.pretty(this);
 
@@ -92,7 +99,7 @@
                     }
                     
                     if (rotation != 0) {
-                        src = imageResize(src, src.type, src.naturalWidth, src.naturalHeight, rotation)
+                        src = imageResize(image, src.type, src.naturalWidth, src.naturalHeight, rotation)
                     }
 
                 }else {
