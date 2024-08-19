@@ -32,6 +32,16 @@ WebAssembly.instantiateStreaming(fetch("ebiten.wasm"), go.importObject).then(res
         // 画像要素を作成して表示
         var imgElement = document.createElement('img');
         imgElement.src = imageUrl;
-        document.body.appendChild(imgElement);
+        // document.body.appendChild(imgElement);
+
+        var a = document.createElement("a");
+		// 保存する画像データをセットする。
+		a.href = imageUrl;
+		// (参考) href の内容は DataURL 形式のテキストです。
+		console.log(a.href);
+		// ファイル名をセットする。
+		a.download = "test.png";
+		// a タグをクリックする。リンクをクリックする動作になります。
+		a.click();
     }
 </script>
